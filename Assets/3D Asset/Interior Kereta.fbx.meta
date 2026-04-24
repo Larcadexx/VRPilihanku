@@ -1,9 +1,39 @@
 fileFormatVersion: 2
-guid: 71b7d07e392064b8bb1bc092a56a701e
+guid: 15983a4f4f72ebc4586456bb2ff61265
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Benches_Train_DefaultMaterial_BaseColor
+    second: {fileID: 2800000, guid: ad76db977a20108478994bf49a710c07, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Benches_Train_DefaultMaterial_Metallic
+    second: {fileID: 2800000, guid: cd20efb85ac3c2049891c843b2b49a01, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Benches_Train_DefaultMaterial_Roughness
+    second: {fileID: 2800000, guid: 6f60f4b2313bfa045be74901f9d83bab, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: RoughMetalRefl
+    second: {fileID: 2800000, guid: 211599399141abb4e83c99bdb4bcd3ae, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: brushedmetal
+    second: {fileID: 2800000, guid: ec2a75dfe971adf4887b884469e32928, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: cloud_noise
+    second: {fileID: 2800000, guid: dcedc8e17cf413b489dec245503ce0ca, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
