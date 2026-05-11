@@ -5,7 +5,6 @@ using TMPro;
 
 public class LevelOneManager : MonoBehaviour
 {
-    // Status karakter
     private enum CharState { Walking, Turning, Idle }
 
     [Header("--- KARAKTER MAHASISWA ---")]
@@ -32,10 +31,21 @@ public class LevelOneManager : MonoBehaviour
     public TextMeshProUGUI subtitleText; 
     public GameObject subtitlePanel; 
 
+    [Header("--- PENGATURAN INSTRUKSI & FEEDBACK ---")]
+    public GameObject panelInstruksi; 
+    public AudioClip audioInstruksi;  
+    public GameObject panelFeedbackBumil;    
+    public GameObject panelFeedbackMahasiswa; 
     [Header("--- TOMBOL OPSI ---")]
     public GameObject btnOpsiBumil;
     public GameObject btnOpsiMahasiswa;
     private bool isOpsiDipilih = false; 
+
+    [Header("--- PENGATURAN WAKTU TUNGGU TOMBOL ---")]
+    [Tooltip("Berapa detik jeda setelah instruksi selesai sebelum lanjut ke Mahasiswa 2")]
+    public float jedaSetelahInstruksi = 5f; 
+    [Tooltip("Berapa detik jeda setelah Bumil 2 selesai sebelum lanjut ke Bumil 3")]
+    public float jedaSetelahBumil2 = 8f;
 
     [Header("--- KLIP AUDIO ---")]
     public AudioClip audioBumil1;
@@ -45,11 +55,11 @@ public class LevelOneManager : MonoBehaviour
     public AudioClip audioBumil3;
 
     [Header("--- TEKS SUBTITLE ---")]
-    [TextArea] public string teksBumil1 = "Teks Bumil 1 (5 Detik)"; // Tadi 4
-    [TextArea] public string teksMahasiswa1 = "Teks Mahasiswa 1 (6 Detik)"; // Tadi 5
-    [TextArea] public string teksMahasiswa2 = "Teks Mahasiswa 2 (4 Detik)"; // Tadi 3
-    [TextArea] public string teksBumil2 = "Teks Bumil 2 (4 Detik)"; // Tadi 3
-    [TextArea] public string teksBumil3 = "Teks Bumil 3 (8 Detik)"; // Tadi 7
+    [TextArea] public string teksBumil1 = "Teks Bumil 1 (5 Detik)"; 
+    [TextArea] public string teksMahasiswa1 = "Teks Mahasiswa 1 (6 Detik)"; 
+    [TextArea] public string teksMahasiswa2 = "Teks Mahasiswa 2 (4 Detik)"; 
+    [TextArea] public string teksBumil2 = "Teks Bumil 2 (4 Detik)"; 
+    [TextArea] public string teksBumil3 = "Teks Bumil 3 (8 Detik)"; 
 
     void Start()
     {
@@ -58,6 +68,10 @@ public class LevelOneManager : MonoBehaviour
 
         btnOpsiBumil.SetActive(false);
         btnOpsiMahasiswa.SetActive(false);
+        if (panelInstruksi != null) panelInstruksi.SetActive(false);
+        if (panelFeedbackBumil != null) panelFeedbackBumil.SetActive(false);
+        if (panelFeedbackMahasiswa != null) panelFeedbackMahasiswa.SetActive(false);
+        
         TutupDialog();
 
         StartCoroutine(UrutanCerita());
@@ -97,26 +111,33 @@ public class LevelOneManager : MonoBehaviour
 
     IEnumerator UrutanCerita()
     {
-        // Tunggu animasi jalan dan muter selesai
         yield return new WaitUntil(() => stateMahasiswa == CharState.Idle && stateBumil == CharState.Idle);
         yield return new WaitForSeconds(1f);
 
-        // MUNCUL BUMIL 1 (Kini 5 Detik)
         MainkanDialog(audioBumil1, teksBumil1);
-        yield return new WaitForSeconds(5f);
-
-        // MUNCUL MAHASISWA 1 (Kini 6 Detik)
-        MainkanDialog(audioMahasiswa1, teksMahasiswa1);
         yield return new WaitForSeconds(6f);
+
+        MainkanDialog(audioMahasiswa1, teksMahasiswa1);
+        yield return new WaitForSeconds(7f);
 
         TutupDialog();
 
         btnOpsiBumil.SetActive(true);
         btnOpsiMahasiswa.SetActive(true);
+        
+        float durasiAudioInstruksi = 0f; 
 
-        // Tunggu 5 detik untuk cek tombol ditekan atau tidak
+        if (panelInstruksi != null) panelInstruksi.SetActive(true);
+        if (audioSource != null && audioInstruksi != null)
+        {
+            audioSource.PlayOneShot(audioInstruksi); 
+            durasiAudioInstruksi = audioInstruksi.length; 
+        }
+
+        float totalTungguPertama = durasiAudioInstruksi + jedaSetelahInstruksi;
         float timer = 0f;
-        while (timer < 5f && !isOpsiDipilih)
+
+        while (timer < totalTungguPertama && !isOpsiDipilih)
         {
             timer += Time.deltaTime; 
             yield return null; 
@@ -124,19 +145,16 @@ public class LevelOneManager : MonoBehaviour
 
         if (!isOpsiDipilih)
         {
-            // MUNCUL MAHASISWA 2 (Kini 4 Detik)
             MainkanDialog(audioMahasiswa2, teksMahasiswa2);
             yield return new WaitForSeconds(4f);
 
-            // MUNCUL BUMIL 2 (Kini 4 Detik)
             MainkanDialog(audioBumil2, teksBumil2);
             yield return new WaitForSeconds(4f);
 
             TutupDialog();
 
-            // Tunggu 8 detik untuk cek tombol
             timer = 0f; 
-            while (timer < 8f && !isOpsiDipilih)
+            while (timer < jedaSetelahBumil2 && !isOpsiDipilih)
             {
                 timer += Time.deltaTime;
                 yield return null;
@@ -144,7 +162,6 @@ public class LevelOneManager : MonoBehaviour
 
             if (!isOpsiDipilih)
             {
-                // MUNCUL BUMIL 3 (Kini 8 Detik)
                 MainkanDialog(audioBumil3, teksBumil3);
                 yield return new WaitForSeconds(8f);
                 
@@ -177,18 +194,28 @@ public class LevelOneManager : MonoBehaviour
     {
         isOpsiDipilih = true;
         TutupDialog(); 
+        
         btnOpsiBumil.SetActive(false);
         btnOpsiMahasiswa.SetActive(false);
-        Debug.Log("Pemain memilih Bumil");
+        if (panelInstruksi != null) panelInstruksi.SetActive(false); 
+        
+        if (panelFeedbackBumil != null) panelFeedbackBumil.SetActive(true);
+        
+        Debug.Log("Pemain memilih Bumil. Memunculkan Panel Feedback Bumil.");
     }
 
     public void PilihOpsiMahasiswa()
     {
         isOpsiDipilih = true;
         TutupDialog();
+        
         btnOpsiBumil.SetActive(false);
         btnOpsiMahasiswa.SetActive(false);
-        Debug.Log("Pemain memilih Mahasiswa");
+        if (panelInstruksi != null) panelInstruksi.SetActive(false); 
+        
+        if (panelFeedbackMahasiswa != null) panelFeedbackMahasiswa.SetActive(true);
+        
+        Debug.Log("Pemain memilih Mahasiswa. Memunculkan Panel Feedback Mahasiswa.");
     }
 
     public void Back()
