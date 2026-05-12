@@ -35,7 +35,6 @@ public class SceneTransitionManager : MonoBehaviour
 
     private void Start()
     {
-        // Setiap kali game mulai atau scene pertama dimuat, lakukan Fade In
         StartCoroutine(FadeIn());
     }
 
@@ -48,7 +47,6 @@ public class SceneTransitionManager : MonoBehaviour
     {
         yield return StartCoroutine(Fade(0, 1));
 
-        // 2. PINDAH SCENE
         AsyncOperation operasi = SceneManager.LoadSceneAsync(namaScene);
         while (!operasi.isDone)
         {

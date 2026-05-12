@@ -23,7 +23,7 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("3. Instruksi Penggunaan Tombol")]
     public GameObject imageInstruksiButton;
-    public GameObject buttonTombol; // Tambahan: Button yang muncul saat instruksi
+    public GameObject buttonTombol;
     public AudioClip audioInstruksiButton;
 
     [Header("4. Penutup")]
@@ -94,7 +94,6 @@ public class MainMenuManager : MonoBehaviour
         yield return new WaitForSeconds(6f);
         if (imagePembukaan.Length > 3) imagePembukaan[3].SetActive(false);
 
-        // Hide Skip Button saat pembukaan selesai
         skipButton.SetActive(false); 
 
         lookKanan.SetActive(true);
@@ -104,18 +103,15 @@ public class MainMenuManager : MonoBehaviour
 
     IEnumerator SequencePenutup()
     {
-        // Munculkan Image Instruksi DAN Button Tombol secara bersamaan
         imageInstruksiButton.SetActive(true);
         if (buttonTombol != null) buttonTombol.SetActive(true); 
         
         PutarAudio(audioInstruksiButton);
         yield return new WaitForSeconds(10f);
         
-        // Sembunyikan keduanya setelah 10 detik
         imageInstruksiButton.SetActive(false);
         if (buttonTombol != null) buttonTombol.SetActive(false);
 
-        // Masuk ke tahap penutup
         PutarAudio(audioPenutup);
         
         if (imagePenutup != null) imagePenutup.SetActive(true);
@@ -123,7 +119,7 @@ public class MainMenuManager : MonoBehaviour
         if (imagePenutup != null) imagePenutup.SetActive(false);
 
         playButton.SetActive(true); 
-        // Skip Button tetap hide
+
     }
 
     private void PutarAudio(AudioClip klip)
@@ -143,7 +139,7 @@ public class MainMenuManager : MonoBehaviour
         lookAtas.SetActive(false);
         
         if (imageInstruksiButton != null) imageInstruksiButton.SetActive(false);
-        if (buttonTombol != null) buttonTombol.SetActive(false); // Pastikan button tombol hide di awal
+        if (buttonTombol != null) buttonTombol.SetActive(false); 
         if (imagePenutup != null) imagePenutup.SetActive(false);
 
         foreach (var img in imagePembukaan) { if (img != null) img.SetActive(false); }

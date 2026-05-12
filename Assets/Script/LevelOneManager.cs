@@ -96,7 +96,9 @@ public class LevelOneManager : MonoBehaviour
     private bool isOpsiDipilih = false; 
 
     [Space(10)]
-    [Header("- Panel Feedback & Audio")]
+    [Header("- Audio Penutup & Feedback")]
+    public AudioClip audioLevel1Selesai; 
+    [Space(5)]
     public GameObject panelFeedbackBumil;
     public AudioClip audioFeedbackBumil;
     [Space(5)]
@@ -105,8 +107,8 @@ public class LevelOneManager : MonoBehaviour
 
     [Space(10)]
     [Header("- Navigasi")]
-    [Tooltip("Tarik tombol 'Lanjut' ke sini agar bisa dimunculkan otomatis")]
     public GameObject btnNextLevel;
+    public AudioClip audioInstruksiNextLevel; 
 
 
     void Start()
@@ -231,7 +233,12 @@ public class LevelOneManager : MonoBehaviour
         yield return StartCoroutine(PlayDialogWait(audioBumil4, teksBumil4));
         yield return StartCoroutine(PlayDialogWait(audioBumil5, teksBumil5));
 
-        TutupDialog();
+        TutupDialog(); 
+        if (audioLevel1Selesai != null)
+        {
+            audioSource.PlayOneShot(audioLevel1Selesai);
+            yield return new WaitForSeconds(audioLevel1Selesai.length);
+        }
 
         if (panelFeedbackBumil != null) panelFeedbackBumil.SetActive(true);
         
@@ -241,9 +248,13 @@ public class LevelOneManager : MonoBehaviour
             yield return new WaitForSeconds(audioFeedbackBumil.length);
         }
 
-        if (panelFeedbackBumil != null) panelFeedbackBumil.SetActive(false);
+        yield return new WaitForSeconds(1.5f);
 
         if (btnNextLevel != null) btnNextLevel.SetActive(true);
+        if (audioInstruksiNextLevel != null)
+        {
+            audioSource.PlayOneShot(audioInstruksiNextLevel);
+        }
     }
 
     IEnumerator SequenceDudukMahasiswa()
@@ -263,7 +274,13 @@ public class LevelOneManager : MonoBehaviour
 
         yield return StartCoroutine(PlayDialogWait(audioMahasiswa3, teksMahasiswa3));
 
-        TutupDialog();
+        TutupDialog(); 
+
+        if (audioLevel1Selesai != null)
+        {
+            audioSource.PlayOneShot(audioLevel1Selesai);
+            yield return new WaitForSeconds(audioLevel1Selesai.length);
+        }
 
         if (panelFeedbackMahasiswa != null) panelFeedbackMahasiswa.SetActive(true);
         
@@ -273,9 +290,13 @@ public class LevelOneManager : MonoBehaviour
             yield return new WaitForSeconds(audioFeedbackMahasiswa.length);
         }
 
-        if (panelFeedbackMahasiswa != null) panelFeedbackMahasiswa.SetActive(false);
+        yield return new WaitForSeconds(1.5f);
 
         if (btnNextLevel != null) btnNextLevel.SetActive(true);
+        if (audioInstruksiNextLevel != null)
+        {
+            audioSource.PlayOneShot(audioInstruksiNextLevel);
+        }
     }
 
     void MainkanDialog(AudioClip klip, string teks)
@@ -322,6 +343,14 @@ public class LevelOneManager : MonoBehaviour
 
     public void PindahKeLevel2()
     {
-        SceneTransitionManager.Instance.PindahScene("Level2");
+        if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.PindahScene("Level2");
+        }
+        else
+        {
+            Debug.LogWarning("SceneTransitionManager nggak ketemu! Langsung load scene biasa.");
+            SceneManager.LoadScene("Level2");
+        }
     }
 }
