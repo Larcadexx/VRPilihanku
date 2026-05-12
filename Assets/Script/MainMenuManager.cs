@@ -151,7 +151,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void PindahKeLevel1()
     {
-        SceneManager.LoadScene("Level1");
+        SceneTransitionManager.Instance.PindahScene("Level1");
     }
 
     public void ButtonTombol()

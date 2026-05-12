@@ -438,28 +438,41 @@ MonoBehaviour:
   bumilTargetRot: {x: 0, y: 90, z: 0}
   bumilWalkSpeed: 2
   turnSpeed: 150
+  audioBumil1: {fileID: 8300000, guid: 7cc45c8fceb074c2eaa2e39988fbc186, type: 3}
+  teksBumil1: Kak permisi, saya boleh ga gantian duduk disana
+  audioMahasiswa1: {fileID: 8300000, guid: 2fc18eb898d1b46b9819734a11457cc1, type: 3}
+  teksMahasiswa1: Ka sori, gantian dong duduknya, pegel nih gw!
+  audioMahasiswa2: {fileID: 8300000, guid: 3da4e1a7b071942c0b5fa20cabeb13f9, type: 3}
+  teksMahasiswa2: Cepetan dooongg, tas gw berat nih!
+  audioBumil2: {fileID: 8300000, guid: 1453c974410014da0ad215bed140183f, type: 3}
+  teksBumil2: Aduh, kaki saya pegali sekali.
+  audioBumil3: {fileID: 8300000, guid: 6f203828ce0df4c7d85959c19730092f, type: 3}
+  teksBumil3: Kak mohon maaf, saya termasuk penumpang prioritas. Kalau berkenan,
+    boleh gantian duduknya sama saya ya
+  cameraRig: {fileID: 2110206185}
+  cameraSitPos: {x: -2.85, y: 1.38, z: 3.16}
+  cameraSitRot: {x: 0, y: 90, z: 0}
+  bumilSitPos: {x: 1.43, y: 0.53, z: 1.68}
+  bumilSitRot: {x: 0, y: -90, z: 0}
+  audioBumil4: {fileID: 8300000, guid: 7301a127780ed41b7ba7dd7b958cb676, type: 3}
+  teksBumil4: wah, terimakasih banyak ya kak
+  audioBumil5: {fileID: 8300000, guid: 5f0a7fd972871436d970c61b5fe7fd39, type: 3}
+  teksBumil5: semoga kebaikannya dibalas yang lebih baik
+  mahasiswaSitPos: {x: 1.43, y: -1.32, z: 4.2}
+  mahasiswaSitRot: {x: 0, y: -90, z: 0}
+  audioMahasiswa3: {fileID: 8300000, guid: 11bca93f27fb0447e862bea4d92089fd, type: 3}
+  teksMahasiswa3: nah gitu dong. makasih ya
   audioSource: {fileID: 559093581}
   subtitleText: {fileID: 1880050715}
   subtitlePanel: {fileID: 1516202979}
   panelInstruksi: {fileID: 864490058}
   audioInstruksi: {fileID: 8300000, guid: f6f35bdd3f6ab45988705fa29be6e392, type: 3}
-  panelFeedbackBumil: {fileID: 155175179}
-  panelFeedbackMahasiswa: {fileID: 1146098704}
   btnOpsiBumil: {fileID: 680977242}
   btnOpsiMahasiswa: {fileID: 88603002}
   jedaSetelahInstruksi: 5
   jedaSetelahBumil2: 8
-  audioBumil1: {fileID: 8300000, guid: 7cc45c8fceb074c2eaa2e39988fbc186, type: 3}
-  audioMahasiswa1: {fileID: 8300000, guid: 2fc18eb898d1b46b9819734a11457cc1, type: 3}
-  audioMahasiswa2: {fileID: 8300000, guid: 3da4e1a7b071942c0b5fa20cabeb13f9, type: 3}
-  audioBumil2: {fileID: 8300000, guid: 1453c974410014da0ad215bed140183f, type: 3}
-  audioBumil3: {fileID: 8300000, guid: 6f203828ce0df4c7d85959c19730092f, type: 3}
-  teksBumil1: Kak permisi, saya boleh ga gantian duduk disana
-  teksMahasiswa1: Ka sori, gantian dong duduknya, pegel nih gw!
-  teksMahasiswa2: Cepetan dooongg, tas gw berat nih!
-  teksBumil2: Aduh, kaki saya pegali sekali.
-  teksBumil3: Kak mohon maaf, saya termasuk penumpang prioritas. Kalau berkenan,
-    boleh gantian duduknya sama saya ya
+  panelFeedbackBumil: {fileID: 155175179}
+  panelFeedbackMahasiswa: {fileID: 1146098704}
 --- !u!4 &559093580
 Transform:
   m_ObjectHideFlags: 0
@@ -1476,8 +1489,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1393996446}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 3.16}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.4}
   m_LocalScale: {x: 0.002, y: 0.002, z: 0.002}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1487,13 +1500,114 @@ RectTransform:
   - {fileID: 864490059}
   - {fileID: 155175180}
   - {fileID: 1146098705}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2110206185}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.97, y: 1.37}
+  m_AnchoredPosition: {x: -0, y: -0.00999999}
   m_SizeDelta: {x: 727, y: 912}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1413837370
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872109900199220901, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686250841573241295, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_Name
+      value: SceneTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686250841573241295, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 35ff7ed1e236a4427af7601a0cd497e8, type: 3}
 --- !u!1 &1516202979
 GameObject:
   m_ObjectHideFlags: 0
@@ -2073,6 +2187,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1972657081}
+  - {fileID: 1393996450}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1660057539 &9223372036854775807
@@ -2080,9 +2195,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2110206185}
+  - {fileID: 1413837370}
   - {fileID: 1165096493}
-  - {fileID: 1393996450}
-  - {fileID: 601944773}
-  - {fileID: 559093580}
   - {fileID: 752328162}
   - {fileID: 542507057}
+  - {fileID: 601944773}
+  - {fileID: 559093580}

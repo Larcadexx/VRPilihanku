@@ -5,9 +5,13 @@ using TMPro;
 
 public class LevelOneManager : MonoBehaviour
 {
-    private enum CharState { Walking, Turning, Idle }
+    private enum CharState { Walking, Turning, Idle, Sitting }
 
-    [Header("--- KARAKTER MAHASISWA ---")]
+    [Header("======================================")]
+    [Header("1. PENGATURAN KARAKTER (BERJALAN)")]
+    [Header("======================================")]
+    [Space(5)]
+    
     public Transform mahasiswaTransform;
     public Animator mahasiswaAnimator;
     public Vector3 mahasiswaTargetPos;
@@ -15,51 +19,95 @@ public class LevelOneManager : MonoBehaviour
     public float mahasiswaWalkSpeed = 1.5f;
     private CharState stateMahasiswa = CharState.Walking;
 
-    [Header("--- KARAKTER IBU HAMIL ---")]
+    [Space(10)]
     public Transform bumilTransform;
     public Animator bumilAnimator;
     public Vector3 bumilTargetPos;
     public Vector3 bumilTargetRot;
     public float bumilWalkSpeed = 1.0f;
     private CharState stateBumil = CharState.Walking;
-
-    [Header("--- PENGATURAN UMUM GERAKAN ---")]
+    
+    [Space(5)]
     public float turnSpeed = 150f;
 
-    [Header("--- PENGATURAN UI & AUDIO ---")]
+    [Space(20)]
+    [Header("======================================")]
+    [Header("2. NARASI CERITA AWAL")]
+    [Header("======================================")]
+    [Space(5)]
+    public float jedaAntarDialog = 0.5f;
+
+    public AudioClip audioBumil1;
+    [TextArea] public string teksBumil1; 
+    public AudioClip audioMahasiswa1;
+    [TextArea] public string teksMahasiswa1; 
+    public AudioClip audioMahasiswa2;
+    [TextArea] public string teksMahasiswa2; 
+    public AudioClip audioBumil2;
+    [TextArea] public string teksBumil2; 
+    public AudioClip audioBumil3;
+    [TextArea] public string teksBumil3; 
+
+    [Space(20)]
+    [Header("======================================")]
+    [Header("3. PENGATURAN ADEGAN DUDUK & KAMERA")]
+    [Header("======================================")]
+    [Space(5)]
+
+    public Transform cameraRig;
+    public Vector3 cameraSitPos; 
+    public Vector3 cameraSitRot; 
+
+    [Space(10)]
+    [Header("- Kondisi Opsi Bumil")]
+    public Vector3 bumilSitPos; 
+    public Vector3 bumilSitRot; 
+    public AudioClip audioBumil4;
+    [TextArea] public string teksBumil4;
+    public AudioClip audioBumil5;
+    [TextArea] public string teksBumil5;
+
+    [Space(10)]
+    [Header("- Kondisi Opsi Mahasiswa")]
+    public Vector3 mahasiswaSitPos; 
+    public Vector3 mahasiswaSitRot; 
+    public AudioClip audioMahasiswa3;
+    [TextArea] public string teksMahasiswa3;
+
+    [Space(20)]
+    [Header("======================================")]
+    [Header("4. UI, TOMBOL, DAN FEEDBACK")]
+    [Header("======================================")]
+    [Space(5)]
+
     public AudioSource audioSource; 
     public TextMeshProUGUI subtitleText; 
     public GameObject subtitlePanel; 
 
-    [Header("--- PENGATURAN INSTRUKSI & FEEDBACK ---")]
+    [Space(10)]
     public GameObject panelInstruksi; 
     public AudioClip audioInstruksi;  
-    public GameObject panelFeedbackBumil;    
-    public GameObject panelFeedbackMahasiswa; 
-    [Header("--- TOMBOL OPSI ---")]
+    
+    [Space(10)]
     public GameObject btnOpsiBumil;
     public GameObject btnOpsiMahasiswa;
+    public float jedaTungguInput = 5f; 
+    public float jedaTungguInputKedua = 8f;
     private bool isOpsiDipilih = false; 
 
-    [Header("--- PENGATURAN WAKTU TUNGGU TOMBOL ---")]
-    [Tooltip("Berapa detik jeda setelah instruksi selesai sebelum lanjut ke Mahasiswa 2")]
-    public float jedaSetelahInstruksi = 5f; 
-    [Tooltip("Berapa detik jeda setelah Bumil 2 selesai sebelum lanjut ke Bumil 3")]
-    public float jedaSetelahBumil2 = 8f;
+    [Space(10)]
+    [Header("- Panel Feedback & Audio")]
+    public GameObject panelFeedbackBumil;
+    public AudioClip audioFeedbackBumil;
+    [Space(5)]
+    public GameObject panelFeedbackMahasiswa;
+    public AudioClip audioFeedbackMahasiswa;
 
-    [Header("--- KLIP AUDIO ---")]
-    public AudioClip audioBumil1;
-    public AudioClip audioMahasiswa1;
-    public AudioClip audioMahasiswa2;
-    public AudioClip audioBumil2;
-    public AudioClip audioBumil3;
+    [Space(10)]
+    [Header("- Navigasi")]
+    [Tooltip("Tarik tombol 'Lanjut' ke sini agar bisa dimunculkan otomatis")]
+    public GameObject btnNextLevel;
 
-    [Header("--- TEKS SUBTITLE ---")]
-    [TextArea] public string teksBumil1 = "Teks Bumil 1 (5 Detik)"; 
-    [TextArea] public string teksMahasiswa1 = "Teks Mahasiswa 1 (6 Detik)"; 
-    [TextArea] public string teksMahasiswa2 = "Teks Mahasiswa 2 (4 Detik)"; 
-    [TextArea] public string teksBumil2 = "Teks Bumil 2 (4 Detik)"; 
-    [TextArea] public string teksBumil3 = "Teks Bumil 3 (8 Detik)"; 
 
     void Start()
     {
@@ -68,12 +116,13 @@ public class LevelOneManager : MonoBehaviour
 
         btnOpsiBumil.SetActive(false);
         btnOpsiMahasiswa.SetActive(false);
+        if (btnNextLevel != null) btnNextLevel.SetActive(false);
+        
         if (panelInstruksi != null) panelInstruksi.SetActive(false);
         if (panelFeedbackBumil != null) panelFeedbackBumil.SetActive(false);
         if (panelFeedbackMahasiswa != null) panelFeedbackMahasiswa.SetActive(false);
         
         TutupDialog();
-
         StartCoroutine(UrutanCerita());
     }
 
@@ -85,12 +134,11 @@ public class LevelOneManager : MonoBehaviour
 
     private void UpdateGerakan(Transform karakter, Animator anim, Vector3 targetPos, Vector3 targetRotEuler, float speed, ref CharState currentState)
     {
-        if (karakter == null) return;
+        if (karakter == null || currentState == CharState.Sitting) return;
 
         if (currentState == CharState.Walking)
         {
             karakter.position = Vector3.MoveTowards(karakter.position, targetPos, speed * Time.deltaTime);
-
             if (Vector3.Distance(karakter.position, targetPos) < 0.05f)
             {
                 currentState = CharState.Turning;
@@ -101,7 +149,6 @@ public class LevelOneManager : MonoBehaviour
         {
             Quaternion targetRot = Quaternion.Euler(targetRotEuler);
             karakter.rotation = Quaternion.RotateTowards(karakter.rotation, targetRot, turnSpeed * Time.deltaTime);
-
             if (Quaternion.Angle(karakter.rotation, targetRot) < 0.1f)
             {
                 currentState = CharState.Idle;
@@ -114,30 +161,24 @@ public class LevelOneManager : MonoBehaviour
         yield return new WaitUntil(() => stateMahasiswa == CharState.Idle && stateBumil == CharState.Idle);
         yield return new WaitForSeconds(1f);
 
-        MainkanDialog(audioBumil1, teksBumil1);
-        yield return new WaitForSeconds(6f);
-
-        MainkanDialog(audioMahasiswa1, teksMahasiswa1);
-        yield return new WaitForSeconds(7f);
+        yield return StartCoroutine(PlayDialogWait(audioBumil1, teksBumil1));
+        yield return StartCoroutine(PlayDialogWait(audioMahasiswa1, teksMahasiswa1));
 
         TutupDialog();
 
         btnOpsiBumil.SetActive(true);
         btnOpsiMahasiswa.SetActive(true);
-        
-        float durasiAudioInstruksi = 0f; 
-
         if (panelInstruksi != null) panelInstruksi.SetActive(true);
+        
+        float durasiInstruksi = 0f;
         if (audioSource != null && audioInstruksi != null)
         {
             audioSource.PlayOneShot(audioInstruksi); 
-            durasiAudioInstruksi = audioInstruksi.length; 
+            durasiInstruksi = audioInstruksi.length; 
         }
 
-        float totalTungguPertama = durasiAudioInstruksi + jedaSetelahInstruksi;
         float timer = 0f;
-
-        while (timer < totalTungguPertama && !isOpsiDipilih)
+        while (timer < (durasiInstruksi + jedaTungguInput) && !isOpsiDipilih)
         {
             timer += Time.deltaTime; 
             yield return null; 
@@ -145,16 +186,12 @@ public class LevelOneManager : MonoBehaviour
 
         if (!isOpsiDipilih)
         {
-            MainkanDialog(audioMahasiswa2, teksMahasiswa2);
-            yield return new WaitForSeconds(4f);
-
-            MainkanDialog(audioBumil2, teksBumil2);
-            yield return new WaitForSeconds(4f);
-
+            yield return StartCoroutine(PlayDialogWait(audioMahasiswa2, teksMahasiswa2));
+            yield return StartCoroutine(PlayDialogWait(audioBumil2, teksBumil2));
             TutupDialog();
 
             timer = 0f; 
-            while (timer < jedaSetelahBumil2 && !isOpsiDipilih)
+            while (timer < jedaTungguInputKedua && !isOpsiDipilih)
             {
                 timer += Time.deltaTime;
                 yield return null;
@@ -162,23 +199,93 @@ public class LevelOneManager : MonoBehaviour
 
             if (!isOpsiDipilih)
             {
-                MainkanDialog(audioBumil3, teksBumil3);
-                yield return new WaitForSeconds(8f);
-                
+                yield return StartCoroutine(PlayDialogWait(audioBumil3, teksBumil3));
                 TutupDialog();
             }
         }
+    }
+
+    IEnumerator PlayDialogWait(AudioClip clip, string text)
+    {
+        if (clip == null) yield break;
+        MainkanDialog(clip, text);
+        yield return new WaitForSeconds(clip.length);
+        yield return new WaitForSeconds(jedaAntarDialog); 
+    }
+
+    IEnumerator SequenceDudukBumil()
+    {
+        stateBumil = CharState.Sitting;
+        if (bumilTransform != null)
+        {
+            bumilTransform.position = bumilSitPos;
+            bumilTransform.rotation = Quaternion.Euler(bumilSitRot);
+        }
+        if (cameraRig != null)
+        {
+            cameraRig.position = cameraSitPos;
+            cameraRig.rotation = Quaternion.Euler(cameraSitRot);
+        }
+        if (bumilAnimator != null) bumilAnimator.SetBool("isSitting", true);
+
+        yield return StartCoroutine(PlayDialogWait(audioBumil4, teksBumil4));
+        yield return StartCoroutine(PlayDialogWait(audioBumil5, teksBumil5));
+
+        TutupDialog();
+
+        if (panelFeedbackBumil != null) panelFeedbackBumil.SetActive(true);
+        
+        if (audioFeedbackBumil != null)
+        {
+            audioSource.PlayOneShot(audioFeedbackBumil);
+            yield return new WaitForSeconds(audioFeedbackBumil.length);
+        }
+
+        if (panelFeedbackBumil != null) panelFeedbackBumil.SetActive(false);
+
+        if (btnNextLevel != null) btnNextLevel.SetActive(true);
+    }
+
+    IEnumerator SequenceDudukMahasiswa()
+    {
+        stateMahasiswa = CharState.Sitting;
+        if (mahasiswaTransform != null)
+        {
+            mahasiswaTransform.position = mahasiswaSitPos;
+            mahasiswaTransform.rotation = Quaternion.Euler(mahasiswaSitRot);
+        }
+        if (cameraRig != null)
+        {
+            cameraRig.position = cameraSitPos;
+            cameraRig.rotation = Quaternion.Euler(cameraSitRot);
+        }
+        if (mahasiswaAnimator != null) mahasiswaAnimator.SetBool("isSitting", true);
+
+        yield return StartCoroutine(PlayDialogWait(audioMahasiswa3, teksMahasiswa3));
+
+        TutupDialog();
+
+        if (panelFeedbackMahasiswa != null) panelFeedbackMahasiswa.SetActive(true);
+        
+        if (audioFeedbackMahasiswa != null)
+        {
+            audioSource.PlayOneShot(audioFeedbackMahasiswa);
+            yield return new WaitForSeconds(audioFeedbackMahasiswa.length);
+        }
+
+        if (panelFeedbackMahasiswa != null) panelFeedbackMahasiswa.SetActive(false);
+
+        if (btnNextLevel != null) btnNextLevel.SetActive(true);
     }
 
     void MainkanDialog(AudioClip klip, string teks)
     {
         if (subtitlePanel != null) subtitlePanel.SetActive(true);
         if (subtitleText != null) subtitleText.text = teks; 
-
         if (audioSource != null && klip != null)
         {
             audioSource.clip = klip;
-            audioSource.Play();
+            audioSource.Play(); 
         }
     }
 
@@ -186,40 +293,35 @@ public class LevelOneManager : MonoBehaviour
     {
         if (subtitlePanel != null) subtitlePanel.SetActive(false);
         if (subtitleText != null) subtitleText.text = "";
-        
         if (audioSource != null) audioSource.Stop();
     }
 
     public void PilihOpsiBumil()
     {
+        if (isOpsiDipilih) return;
         isOpsiDipilih = true;
+        StopAllCoroutines(); 
         TutupDialog(); 
-        
         btnOpsiBumil.SetActive(false);
         btnOpsiMahasiswa.SetActive(false);
         if (panelInstruksi != null) panelInstruksi.SetActive(false); 
-        
-        if (panelFeedbackBumil != null) panelFeedbackBumil.SetActive(true);
-        
-        Debug.Log("Pemain memilih Bumil. Memunculkan Panel Feedback Bumil.");
+        StartCoroutine(SequenceDudukBumil());
     }
 
     public void PilihOpsiMahasiswa()
     {
+        if (isOpsiDipilih) return;
         isOpsiDipilih = true;
+        StopAllCoroutines(); 
         TutupDialog();
-        
         btnOpsiBumil.SetActive(false);
         btnOpsiMahasiswa.SetActive(false);
         if (panelInstruksi != null) panelInstruksi.SetActive(false); 
-        
-        if (panelFeedbackMahasiswa != null) panelFeedbackMahasiswa.SetActive(true);
-        
-        Debug.Log("Pemain memilih Mahasiswa. Memunculkan Panel Feedback Mahasiswa.");
+        StartCoroutine(SequenceDudukMahasiswa());
     }
 
-    public void Back()
+    public void PindahKeLevel2()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneTransitionManager.Instance.PindahScene("Level2");
     }
 }
